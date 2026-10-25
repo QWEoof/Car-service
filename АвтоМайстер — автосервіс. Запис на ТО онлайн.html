@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>АвтоМайстер — автосервіс. Запис на ТО онлайн</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8eaeb;--surface:#f6f7f7;--ink:#1b1f24;--muted:#566069;--line:#c4cace;--accent:#ffc20e;--band:#1b1f24;--band-ink:#eef0f1;--err:#b3261e;
+--f-head:"Unbounded","Arial Black",sans-serif;--f-body:"Onest",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121518;--surface:#1c2025;--ink:#eef0f1;--muted:#9ba5ad;--line:#333a41;--band:#0c0e10;--err:#ff8a80}}
+:root[data-theme="dark"]{--bg:#121518;--surface:#1c2025;--ink:#eef0f1;--muted:#9ba5ad;--line:#333a41;--band:#0c0e10;--err:#ff8a80}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--f-body)}
+img,svg{max-width:100%}
+a{color:inherit}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:2px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:600 16px var(--f-body);text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#1b1f24}
+.btn.primary:hover{filter:brightness(.95)}
+.btn.ghost{border-color:#5b646c;color:var(--band-ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+h1,h2,h3{font-family:var(--f-head);font-weight:700;line-height:1.1;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(26px,4vw,40px)}
+
+/* hero */
+#engine{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.38}
+header,main,footer{position:relative;z-index:1}
+.hero{background:color-mix(in srgb,var(--band) 88%,transparent);color:var(--band-ink)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+.logo{font:700 20px var(--f-head);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:14px;height:14px;background:var(--accent);display:inline-block;transform:rotate(45deg)}
+.top a.tel{font-weight:600;text-decoration:none;white-space:nowrap}
+.hero-grid{padding:56px 0 96px}
+.hero h1{font-size:clamp(34px,6vw,64px);max-width:15ch}
+.hero p.lead{font-size:19px;color:#b9c1c7;max-width:34ch;margin:22px 0 30px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero svg{width:100%;height:auto}
+.stripe{height:18px;background:repeating-linear-gradient(-45deg,var(--accent) 0 18px,#1b1f24 18px 36px)}
+
+/* services */
+section{padding:72px 0}
+.s-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.s-head p{margin:0;color:var(--muted);max-width:44ch}
+.svc{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.svc li{display:grid;grid-template-columns:48px 1fr auto auto;gap:18px;align-items:center;padding:20px 4px;border-bottom:1px solid var(--line)}
+.svc svg{width:40px;height:40px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.svc h3{font-size:18px;font-family:var(--f-body);font-weight:600;letter-spacing:0}
+.svc small{display:block;color:var(--muted);font-size:15px}
+.price{font-weight:600;white-space:nowrap}
+.pick{min-height:44px;padding:0 18px;border:2px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:600 15px var(--f-body);cursor:pointer}
+.pick:hover{background:var(--accent);border-color:var(--accent);color:#1b1f24}
+
+/* booking */
+.book{background:color-mix(in srgb,var(--surface) 88%,transparent);border-block:1px solid var(--line)}
+.book-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+.book-grid>div:first-child p{color:var(--muted)}
+.card{background:var(--bg);border:2px solid var(--ink);border-radius:10px;padding:26px}
+.steps{display:flex;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.steps li{flex:1;border-top:4px solid var(--line);padding-top:8px;font-size:14px;color:var(--muted)}
+.steps li.on{border-color:var(--accent);color:var(--ink);font-weight:600}
+.steps li.done{border-color:var(--ink);color:var(--ink)}
+.pane{display:none;border:0;margin:0;padding:0;min-width:0}
+.pane.on{display:block}
+.pane legend{font:700 20px var(--f-head);padding:0;margin-bottom:6px}
+.hint{color:var(--muted);font-size:15px;margin:0 0 16px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.chip span{display:block;padding:11px 16px;border:2px solid var(--line);border-radius:6px;background:var(--surface);font-weight:500;pointer-events:none}
+.chip input:checked+span{border-color:var(--ink);background:var(--accent);color:#1b1f24;font-weight:600}
+.chip input:focus-visible+span{outline:3px solid var(--ink);outline-offset:2px}
+.chip input:disabled+span{opacity:.4;text-decoration:line-through}
+.chip.day span{text-align:center;min-width:76px;line-height:1.25}
+.chip.day b{display:block;font-size:20px}
+.f{display:block;margin-bottom:14px}
+.f label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.f input,.f textarea{width:100%;min-height:50px;padding:12px 14px;border:2px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit}
+.f input:focus,.f textarea:focus{border-color:var(--ink);outline:none}
+.f .err{display:none;color:var(--err);font-size:14px;margin-top:4px}
+.f.bad input{border-color:var(--err)}.f.bad .err{display:block}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.msg{color:var(--err);font-size:15px;min-height:22px;margin:0 0 6px}
+.ok{display:none;text-align:left}
+.ok.on{display:block}
+.ok h3{font-size:24px;margin-bottom:12px}
+.ok dl{margin:16px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px}
+.ok dt{color:var(--muted)}.ok dd{margin:0;font-weight:600}
+
+/* contacts */
+.contacts{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.way{display:flex;align-items:center;gap:12px;padding:16px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:600;min-height:64px}
+.way:hover{background:var(--accent);border-color:var(--accent);color:#1b1f24}
+.way svg{width:26px;height:26px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.way small{display:block;font-weight:400;color:var(--muted);font-size:14px}
+.way:hover small{color:#1b1f24}
+.info{margin:0;display:grid;gap:18px}
+.info dt{color:var(--muted);font-size:15px}
+.info dd{margin:2px 0 0;font-weight:600;font-size:18px}
+footer{background:var(--band);color:#9ba5ad;padding:28px 0 90px;font-size:15px}
+.bar{display:none}
+
+@media (max-width:860px){
+.hero-grid,.book-grid,.contacts{grid-template-columns:1fr;gap:32px}
+.hero-grid{padding-bottom:40px}
+section{padding:52px 0}
+.svc li{grid-template-columns:40px 1fr auto;gap:12px}
+.svc .pick{grid-column:2/4;justify-self:start}
+.svc svg{width:32px;height:32px}
+.ways{grid-template-columns:1fr}
+.bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:var(--band);border-top:1px solid #333a41}
+.bar .btn{flex:1;min-height:48px;padding:0 10px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="engine" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-to" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z"/></symbol>
+<symbol id="i-oil" viewBox="0 0 24 24"><path d="M12 3c3 4 6 7 6 10.5a6 6 0 0 1-12 0C6 10 9 7 12 3z"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5"/></symbol>
+<symbol id="i-diag" viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/><circle cx="12" cy="17" r="1"/></symbol>
+<symbol id="i-brake" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="6.5" r=".6"/><circle cx="12" cy="17.5" r=".6"/><circle cx="6.5" cy="12" r=".6"/><circle cx="17.5" cy="12" r=".6"/></symbol>
+<symbol id="i-susp" viewBox="0 0 24 24"><path d="M12 2v3l-4 2 8 3-8 3 8 3-4 2v4"/></symbol>
+<symbol id="i-tire" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 3z"/><path d="M9 13l12-9"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+</svg>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <a class="logo" href="#"><i></i>АвтоМайстер</a>
+      <a class="tel" href="tel:+380000000000">+38 (000) 000-00-00</a>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1>ТО за один день. Запис — за три кліки.</h1>
+        <p class="lead">Оберіть послугу, зручний час і залиште номер. Підтвердимо запис дзвінком упродовж години.</p>
+        <div class="cta">
+          <a class="btn primary" href="#book">Записатися на ТО</a>
+          <a class="btn ghost" href="#contacts">Контакти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stripe" aria-hidden="true"></div>
+</header>
+
+<main>
+<section id="services">
+  <div class="wrap">
+    <div class="s-head">
+      <h2>Що ми робимо</h2>
+      <p>Ціни орієнтовні, точну вартість назвемо після огляду авто.</p>
+    </div>
+    <ul class="svc">
+      <li><svg><use href="#i-to"/></svg><div><h3>Планове ТО</h3><small>Масло, фільтри, огляд вузлів за регламентом</small></div><span class="price">від 1 200 грн</span><button class="pick" data-s="Планове ТО">Обрати</button></li>
+      <li><svg><use href="#i-oil"/></svg><div><h3>Заміна масла й фільтрів</h3><small>Двигун, КПП, гальмівна рідина</small></div><span class="price">від 600 грн</span><button class="pick" data-s="Заміна масла й фільтрів">Обрати</button></li>
+      <li><svg><use href="#i-diag"/></svg><div><h3>Комп’ютерна діагностика</h3><small>Помилки, датчики, огляд перед купівлею</small></div><span class="price">від 500 грн</span><button class="pick" data-s="Комп’ютерна діагностика">Обрати</button></li>
+      <li><svg><use href="#i-brake"/></svg><div><h3>Гальмівна система</h3><small>Колодки, диски, супорти</small></div><span class="price">від 700 грн</span><button class="pick" data-s="Гальмівна система">Обрати</button></li>
+      <li><svg><use href="#i-susp"/></svg><div><h3>Ходова частина</h3><small>Амортизатори, важелі, сайлентблоки</small></div><span class="price">від 600 грн</span><button class="pick" data-s="Ходова частина">Обрати</button></li>
+      <li><svg><use href="#i-tire"/></svg><div><h3>Шини та розвал-сходження</h3><small>Шиномонтаж, балансування, регулювання кутів</small></div><span class="price">від 400 грн</span><button class="pick" data-s="Шини та розвал-сходження">Обрати</button></li>
+    </ul>
+  </div>
+</section>
+
+<section class="book" id="book">
+  <div class="wrap book-grid">
+    <div>
+      <h2>Запис на ТО</h2>
+      <p>Три короткі кроки. Оплата не потрібна: ми зателефонуємо, підтвердимо час і відповімо на запитання.</p>
+    </div>
+    <div class="card">
+      <ol class="steps" id="steps" aria-label="Кроки запису"><li class="on">Послуга</li><li>Час</li><li>Контакти</li></ol>
+      <form id="form" novalidate>
+        <fieldset class="pane on" data-p="0">
+          <legend>Що потрібно зробити?</legend>
+          <p class="hint">Можна обрати кілька послуг.</p>
+          <div class="chips" id="svcChips"></div>
+          <p class="msg" id="m0" role="alert"></p>
+          <div class="nav"><span></span><button type="button" class="btn primary" data-next>Далі</button></div>
+        </fieldset>
+        <fieldset class="pane" data-p="1">
+          <legend>Коли вам зручно?</legend>
+          <p class="hint">Працюємо пн–пт 9:00–18:00, сб 9:00–15:00.</p>
+          <div class="chips" id="dayChips"></div>
+          <div class="chips" id="timeChips"></div>
+          <p class="msg" id="m1" role="alert"></p>
+          <div class="nav"><button type="button" class="btn" data-prev>Назад</button><button type="button" class="btn primary" data-next>Далі</button></div>
+        </fieldset>
+        <fieldset class="pane" data-p="2">
+          <legend>Як з вами зв’язатися?</legend>
+          <p class="hint">Телефон потрібен лише для підтвердження запису.</p>
+          <div class="f" id="f-name"><label for="name">Ім’я</label><input id="name" autocomplete="name"><div class="err">Вкажіть ім’я</div></div>
+          <div class="f" id="f-phone"><label for="phone">Телефон</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+38 0__ ___ __ __"><div class="err">Введіть номер у форматі 0XX XXX XX XX</div></div>
+          <div class="f"><label for="car">Авто (марка, модель, рік)</label><input id="car" placeholder="Наприклад, Skoda Octavia 2016"></div>
+          <div class="nav"><button type="button" class="btn" data-prev>Назад</button><button type="submit" class="btn primary">Записатися</button></div>
+        </fieldset>
+      </form>
+      <div class="ok" id="ok" tabindex="-1" aria-live="polite">
+        <h3>Запис прийнято</h3>
+        <p>Зателефонуємо за номером <b id="o-phone"></b> упродовж години, щоб підтвердити час.</p>
+        <dl><dt>Послуги</dt><dd id="o-svc"></dd><dt>Час</dt><dd id="o-time"></dd><dt>Авто</dt><dd id="o-car"></dd></dl>
+        <button class="btn" id="again" type="button">Створити новий запис</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap contacts">
+    <div>
+      <h2>Зв’яжіться з нами</h2>
+      <div class="ways">
+        <a class="way" href="tel:+380000000000"><svg><use href="#i-phone"/></svg><span>Подзвонити<small>+38 (000) 000-00-00</small></span></a>
+        <a class="way" href="https://t.me/your_service" rel="noopener"><svg><use href="#i-chat"/></svg><span>Telegram<small>Відповідаємо за 10 хвилин</small></span></a>
+        <a class="way" href="viber://chat?number=%2B380000000000"><svg><use href="#i-msg"/></svg><span>Viber<small>Фото й відео поломки</small></span></a>
+        <a class="way" href="https://wa.me/380000000000" rel="noopener"><svg><use href="#i-msg"/></svg><span>WhatsApp<small>Текстом або голосом</small></span></a>
+      </div>
+    </div>
+    <dl class="info">
+      <div><dt>Адреса</dt><dd>м. Ваше місто, вул. Прикладна, 12</dd></div>
+      <div><dt>Графік</dt><dd>Пн–Пт 9:00–18:00<br>Сб 9:00–15:00<br>Нд — вихідний</dd></div>
+      <div><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=автосервіс" rel="noopener"><svg width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:1.8"><use href="#i-pin"/></svg>Прокласти маршрут</a></div>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">© 2026 АвтоМайстер. Усі права захищено.</div></footer>
+
+<div class="bar"><a class="btn ghost" href="tel:+380000000000">Подзвонити</a><a class="btn primary" href="#book">Записатися</a></div>
+
+<script>
+(function(){
+var SERVICES=["Планове ТО","Заміна масла й фільтрів","Комп’ютерна діагностика","Гальмівна система","Ходова частина","Шини та розвал-сходження","Інше / не знаю"];
+var WD=["нд","пн","вт","ср","чт","пт","сб"],MO=["січ","лют","бер","кві","тра","чер","лип","сер","вер","жов","лис","гру"];
+var step=0,sel={},day=null,time=null;
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+function renderServices(){
+  $("#svcChips").innerHTML=SERVICES.map(function(s,i){
+    return '<label class="chip"><input type="checkbox" value="'+s+'"'+(sel[s]?' checked':'')+'><span>'+s+'</span></label>';
+  }).join("");
+  $$("#svcChips input").forEach(function(c){c.onchange=function(){sel[c.value]=c.checked;if(!c.checked)delete sel[c.value];$("#m0").textContent=""}});
+}
+function days(){
+  var out=[],d=new Date();
+  while(out.length<7){d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1);if(d.getDay()!==0)out.push(d)}
+  return out;
+}
+function key(d){return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function renderDays(){
+  var list=days();
+  $("#dayChips").innerHTML=list.map(function(d,i){
+    return '<label class="chip day"><input type="radio" name="day" value="'+key(d)+'"'+(day&&day.k===key(d)?' checked':'')+'><span>'+WD[d.getDay()]+'<b>'+d.getDate()+'</b>'+MO[d.getMonth()]+'</span></label>';
+  }).join("");
+  $$("#dayChips input").forEach(function(r,i){r.onchange=function(){day={k:r.value,d:list[i]};time=null;renderTimes();$("#m1").textContent=""}});
+  if(!day){$("#timeChips").innerHTML='<p class="hint">Спершу оберіть день.</p>'}else renderTimes();
+}
+function renderTimes(){
+  var d=day.d,last=d.getDay()===6?14:17,h,html="";
+  for(h=9;h<=last;h++){
+    var busy=((d.getDate()*7+h*3)%5)===0,t=(h<10?"0":"")+h+":00";
+    html+='<label class="chip"><input type="radio" name="time" value="'+t+'"'+(busy?' disabled':'')+(time===t?' checked':'')+'><span>'+t+'</span></label>';
+  }
+  $("#timeChips").innerHTML=html;
+  $$("#timeChips input").forEach(function(r){r.onchange=function(){time=r.value;$("#m1").textContent=""}});
+}
+function show(n){
+  step=n;
+  $$(".pane").forEach(function(p,i){p.classList.toggle("on",i===n)});
+  $$("#steps li").forEach(function(li,i){li.className=i<n?"done":i===n?"on":""});
+  var f=$(".pane.on input:not([disabled])");
+  if(f&&n===2)f.focus();
+}
+function next(){
+  if(step===0){
+    if(!Object.keys(sel).length){$("#m0").textContent="Оберіть хоча б одну послугу.";return}
+  }
+  if(step===1){
+    if(!day){$("#m1").textContent="Оберіть день.";return}
+    if(!time){$("#m1").textContent="Оберіть час.";return}
+  }
+  show(step+1);
+}
+$$("[data-next]").forEach(function(b){b.onclick=next});
+$$("[data-prev]").forEach(function(b){b.onclick=function(){show(step-1)}});
+
+$$(".pick").forEach(function(b){b.onclick=function(){
+  sel[b.dataset.s]=true;renderServices();show(0);
+  document.getElementById("book").scrollIntoView();
+}});
+
+function digits(v){return v.replace(/\D/g,"")}
+function phoneOk(v){var d=digits(v);return /^(380\d{9}|0\d{9})$/.test(d)}
+$("#form").addEventListener("submit",function(e){
+  e.preventDefault();
+  var name=$("#name").value.trim(),phone=$("#phone").value,bad=false;
+  $("#f-name").classList.toggle("bad",!name);
+  $("#f-phone").classList.toggle("bad",!phoneOk(phone));
+  if(!name){$("#name").focus();return}
+  if(!phoneOk(phone)){$("#phone").focus();return}
+  var booking={services:Object.keys(sel),date:day.k,time:time,name:name,phone:phone.trim(),car:$("#car").value.trim()};
+  // TODO: надіслати booking на сервер/у Telegram-бот, коли буде бекенд.
+  console.log("booking",booking);
+  $("#o-phone").textContent=booking.phone;
+  $("#o-svc").textContent=booking.services.join(", ");
+  $("#o-time").textContent=WD[day.d.getDay()]+", "+day.d.getDate()+" "+MO[day.d.getMonth()]+", "+time;
+  $("#o-car").textContent=booking.car||"не вказано";
+  $("#form").style.display="none";$("#steps").style.display="none";
+  $("#ok").classList.add("on");$("#ok").focus();
+});
+$("#again").onclick=function(){
+  sel={};day=null;time=null;$("#form").reset();
+  $("#form").style.display="";$("#steps").style.display="";$("#ok").classList.remove("on");
+  renderServices();renderDays();show(0);
+};
+renderServices();renderDays();
+})();
+(function(){
+var cv=document.getElementById("engine"),ctx=cv.getContext("2d"),W,H,dpr,cur=0,raf=0,N=6,
+PH=[0,4.19,2.09,2.09,4.19,0],BA=Math.PI/6,M=Math,
+reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function size(){dpr=M.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw()}
+function pt(O,b,x,y){return [O[0]+x*M.cos(b)-y*M.sin(b),O[1]+x*M.sin(b)+y*M.cos(b)]}
+function ln(a,b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke()}
+function circ(c,R,fill){ctx.beginPath();ctx.arc(c[0],c[1],R,0,7);fill?ctx.fill():ctx.stroke()}
+function slice(O,r,th,al){
+ var L=3.4*r,ph=1.7*r,pw=2.4*r,bw=pw/2+.12*r,hd=r+L+.4*ph+.25*r,d0=L-r-.6*ph-.1*r,
+ line="rgba(138,148,156,"+(.36*al)+")",acc="rgba(255,194,14,",lw=M.max(1.2,r*.05);
+ ctx.strokeStyle=line;ctx.fillStyle=line;ctx.lineWidth=lw;
+ ctx.setLineDash([lw*2,lw*4]);circ(O,r);ctx.setLineDash([]);
+ var C=[O[0]+r*M.sin(th),O[1]-r*M.cos(th)];
+ ctx.lineWidth=lw*3;ln(O,C);
+ [-1,1].forEach(function(k){
+  var b=k*BA,f=th-b,s=r*M.cos(f)+M.sqrt(L*L-r*r*M.sin(f)*M.sin(f)),
+  P=[O[0]+s*M.sin(b),O[1]-s*M.cos(b)];
+  ctx.strokeStyle=line;ctx.lineWidth=lw*2.5;ln(C,P);
+  ctx.save();ctx.translate(O[0],O[1]);ctx.rotate(b);
+  ctx.lineWidth=lw*1.5;ctx.strokeStyle=line;
+  ctx.beginPath();ctx.moveTo(-bw,-d0);ctx.lineTo(-bw,-hd);ctx.lineTo(bw,-hd);ctx.lineTo(bw,-d0);ctx.stroke();
+  var cc=[0,-(hd+.45*r)],ca=th/2+k;ctx.lineWidth=lw;circ(cc,.45*r);
+  ln(cc,[cc[0]+.45*r*M.cos(ca),cc[1]+.45*r*M.sin(ca)]);
+  ctx.fillStyle=acc+(.2*al)+")";ctx.strokeStyle=acc+(.75*al)+")";ctx.lineWidth=lw*1.5;
+  ctx.beginPath();ctx.rect(-pw/2,-(s+.4*ph),pw,ph);ctx.fill();ctx.stroke();
+  ctx.lineWidth=lw;for(var j=1;j<3;j++)ln([-pw/2,-(s+.4*ph)+j*ph*.14],[pw/2,-(s+.4*ph)+j*ph*.14]);
+  ctx.restore();ctx.fillStyle=line;
+ });
+ ctx.fillStyle=acc+(.85*al)+")";circ(C,.28*r,1);
+ ctx.fillStyle=line;circ(O,.3*r,1);
+}
+function draw(){
+ ctx.clearRect(0,0,W,H);ctx.lineCap="round";ctx.lineJoin="round";
+ var r=M.min(W/13*.95,H/10.4*.78),dx=r*1.05,dy=r*.5,ox=W/2-(N-1)*dx/2,oy=H*.64+(N-1)*dy/2,
+ O=function(i){return [ox+i*dx,oy-i*dy]},O0=O(0),O1=O(N-1),
+ line="rgba(138,148,156,.36)",lw=M.max(1.2,r*.05),i,k;
+ ctx.strokeStyle=line;ctx.lineWidth=lw*4;ln(O0,O1);
+ // block edges and oil pan
+ var L=3.4*r,hd=r+L+.68*r+.25*r,bw=1.32*r;
+ ctx.lineWidth=lw;
+ [-1,1].forEach(function(k){[-1,1].forEach(function(e){ln(pt(O0,k*BA,e*bw,-hd),pt(O1,k*BA,e*bw,-hd))})});
+ var pan=[[-3,1.3],[-2,2.4],[2,2.4],[3,1.3]];
+ [O0,O1].forEach(function(o){ctx.lineWidth=lw*1.5;ctx.beginPath();pan.forEach(function(q,j){j?ctx.lineTo(o[0]+q[0]*r,o[1]+q[1]*r):ctx.moveTo(o[0]+q[0]*r,o[1]+q[1]*r)});ctx.stroke()});
+ ctx.lineWidth=lw;pan.forEach(function(q){ln([O0[0]+q[0]*r,O0[1]+q[1]*r],[O1[0]+q[0]*r,O1[1]+q[1]*r])});
+ for(i=N-1;i>=0;i--)slice(O(i),r,cur+PH[i],.45+.55*(1-i/N));
+ // front pulleys and belt
+ var P0=[O0[0]-dx*.9,O0[1]+dy*.9],A=[P0[0]-3.3*r,P0[1]-.3*r],R1=1.15*r,R2=.75*r,
+ D=M.hypot(A[0]-P0[0],A[1]-P0[1]),d=[(A[0]-P0[0])/D,(A[1]-P0[1])/D],n=[-d[1],d[0]];
+ ctx.strokeStyle=line;ctx.lineWidth=lw*2;
+ [-1,1].forEach(function(e){ln([P0[0]+n[0]*R1*e,P0[1]+n[1]*R1*e],[A[0]+n[0]*R2*e,A[1]+n[1]*R2*e])});
+ [[P0,R1,1],[A,R2,1.8]].forEach(function(q){
+  ctx.lineWidth=lw*2;circ(q[0],q[1]);ctx.lineWidth=lw*1.5;
+  for(k=0;k<3;k++){var a=cur*q[2]+k*2.094;ln(q[0],[q[0][0]+q[1]*.8*M.sin(a),q[0][1]-q[1]*.8*M.cos(a)])}
+  ctx.fillStyle="rgba(255,194,14,.85)";circ(q[0],q[1]*.14,1);
+ });
+}
+function target(){return reduce?0:(window.scrollY||0)*.012}
+function tick(){var d=target()-cur;cur+=d*.12;draw();raf=M.abs(d)>.002?requestAnimationFrame(tick):0}
+function kick(){if(!raf&&!reduce)raf=requestAnimationFrame(tick)}
+addEventListener("scroll",kick,{passive:true});addEventListener("resize",size);
+cur=target();size();
+})();
+</script>
+</body>
+</html>
